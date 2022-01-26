@@ -2,93 +2,50 @@
 
 # NxNodeDemo
 
-This project was generated using [Nx](https://nx.dev).
+This project demonstrates a problem with `graphql-helix` and the `@nrwl/node` build/execution environment.
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+## Project Setup
 
-🔎 **Smart, Fast and Extensible Build System**
+In the project directory, run:
 
-## Adding capabilities to your workspace
+`npm install`
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+`npx nx serve`
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+The following error is expected:
 
-Below are our core plugins:
+```
+Error: Cannot find module '<path>\nx-node-demo\node_modules\graphql-helix\dist\dist.js'
+    at createEsmNotFoundErr (internal/modules/cjs/loader.js:912:15)
+    at finalizeEsmResolution (internal/modules/cjs/loader.js:905:15)
+    at resolveExports (internal/modules/cjs/loader.js:437:14)
+    at Function.Module._findPath (internal/modules/cjs/loader.js:477:31)
+    at Function.Module._resolveFilename (internal/modules/cjs/loader.js:872:27)
+    at Function.Module._load (internal/modules/cjs/loader.js:730:27)
+    at Module.require (internal/modules/cjs/loader.js:957:19)
+    at require (internal/modules/cjs/helpers.js:88:18)
+    at Object.graphql-helix/dist (<path>\nx-node-demo\dist\apps\api\webpack:\nx-node-demo\external commonjs "graphql-helix\dist":1:1)
+    at __webpack_require__ (<path>\Projects\nx-node-demo\dist\apps\api\webpack:\nx-node-demo\webpack\bootstrap:19:1)
+```
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+This error was discovered in `@nrwl/node` versions 13+.  The primary difference in version 13 and version 12 appears to be the use of Webpack v5+ in version 13, and Webpack v4 in version 12.
 
-There are also many [community plugins](https://nx.dev/community) you could add.
-
-## Generate an application
-
-Run `nx g @nrwl/react:app my-app` to generate an application.
-
-> You can use any of the plugins above to generate applications as well.
-
-When using Nx, you can create multiple applications and libraries in the same workspace.
-
-## Generate a library
-
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
-
-> You can also use any of the plugins above to generate libraries as well.
-
-Libraries are shareable across libraries and applications. They can be imported from `@nx-node-demo/mylib`.
-
-## Development server
-
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-
-
-## ☁ Nx Cloud
-
-### Distributed Computation Caching & Distributed Task Execution
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+From `package-lock.json`:
+```json
+"@nrwl/node": {
+      "version": "13.5.3",
+      "resolved": "https://registry.npmjs.org/@nrwl/node/-/node-13.5.3.tgz",
+      "integrity": "sha512-F+lXEUlBEQlPGKucc+6M+QqDqMjU7BUlyau4DIGpDDOgCDwGqAgfknsauqPyixIrNO41qMJUED2ONV7KczgRtg==",
+      "dev": true,
+      "requires": {
+        <content>
+        "ts-loader": "^9.2.6",
+        "ts-node": "~9.1.1",
+        "tsconfig-paths": "^3.9.0",
+        "tsconfig-paths-webpack-plugin": "3.4.1",
+        "tslib": "^2.3.0",
+        "webpack": "^5.58.1",
+        "webpack-merge": "^5.8.0",
+        "webpack-node-externals": "^3.0.0"
+      }
+```

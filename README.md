@@ -10,7 +10,7 @@ In the project directory, run:
 
 `npm install`
 
-`npx nx serve`
+`npx nx serve api`
 
 The following error is expected:
 
@@ -26,26 +26,4 @@ Error: Cannot find module '<path>\nx-node-demo\node_modules\graphql-helix\dist\d
     at require (internal/modules/cjs/helpers.js:88:18)
     at Object.graphql-helix/dist (<path>\nx-node-demo\dist\apps\api\webpack:\nx-node-demo\external commonjs "graphql-helix\dist":1:1)
     at __webpack_require__ (<path>\Projects\nx-node-demo\dist\apps\api\webpack:\nx-node-demo\webpack\bootstrap:19:1)
-```
-
-This error was discovered in `@nrwl/node` versions 13+.  The primary difference in version 13 and version 12 appears to be the use of Webpack v5+ in version 13, and Webpack v4 in version 12.
-
-From `package-lock.json`:
-```json
-"@nrwl/node": {
-      "version": "13.5.3",
-      "resolved": "https://registry.npmjs.org/@nrwl/node/-/node-13.5.3.tgz",
-      "integrity": "sha512-F+lXEUlBEQlPGKucc+6M+QqDqMjU7BUlyau4DIGpDDOgCDwGqAgfknsauqPyixIrNO41qMJUED2ONV7KczgRtg==",
-      "dev": true,
-      "requires": {
-        <content>
-        "ts-loader": "^9.2.6",
-        "ts-node": "~9.1.1",
-        "tsconfig-paths": "^3.9.0",
-        "tsconfig-paths-webpack-plugin": "3.4.1",
-        "tslib": "^2.3.0",
-        "webpack": "^5.58.1",
-        "webpack-merge": "^5.8.0",
-        "webpack-node-externals": "^3.0.0"
-      }
 ```

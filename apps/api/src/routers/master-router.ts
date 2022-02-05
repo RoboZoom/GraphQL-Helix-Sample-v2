@@ -1,8 +1,9 @@
 import { NextFunction, Request, Router } from 'express';
 
-import { getGraphQLParameters, processRequest, renderGraphiQL, shouldRenderGraphiQL } from 'graphql-helix/dist';
-import { buildSchema } from 'type-graphql';
+import { getGraphQLParameters, processRequest, renderGraphiQL, shouldRenderGraphiQL } from 'graphql-helix';
+
 import { SampleItemResolver } from "../sample.resolver";
+import { makeExecutableSchema } from "@graphql-tools/schema";
 
 class MasterRouter {
   private _router = Router();
@@ -18,9 +19,24 @@ class MasterRouter {
 
   private async _configure() {
 
-    const schema = await buildSchema({
-                                       resolvers: [SampleItemResolver]
-                                     });
+    const typeDefs = /*GraphQL */ `
+      type Trivial {
+        id: String
+      }
+
+      type Query {
+        getTrivialById(id: String): Trivial
+      }
+    `
+    const resolvers = {
+      Query: {
+        getTrivialById: (id: string) => ({id: id})
+      }
+    }
+    const schema = makeExecutableSchema({
+                                          typeDefs,
+                                          resolvers
+                                        });  // Schema Build Logic here
 
     console.log(`Configuring Master Router`);
     this._router.all('/', async (req: Request, res: Response, next: NextFunction) => {

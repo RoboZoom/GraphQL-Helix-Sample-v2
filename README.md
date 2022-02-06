@@ -10,7 +10,9 @@ In the project directory, run:
 
 `npx nx serve api`
 
-Task: Implement the following query and mutations through the graphQL end point:
+## Task 
+
+Implement the following query and mutations through the graphQL end point:
 - `getFooByID(id: String): Foo`
 - `createFoo(fooInput: FooInput)`  - You will need to define `FooInput`
 - `createBar(barInput: BarInput)`  - You will need to define `BarInput`

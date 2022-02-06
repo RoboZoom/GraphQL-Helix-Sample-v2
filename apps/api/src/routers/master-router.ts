@@ -1,8 +1,5 @@
 import { NextFunction, Request, Router } from 'express';
-
 import { getGraphQLParameters, processRequest, renderGraphiQL, shouldRenderGraphiQL } from 'graphql-helix';
-
-import { SampleItemResolver } from "../sample.resolver";
 import { makeExecutableSchema } from "@graphql-tools/schema";
 
 class MasterRouter {
